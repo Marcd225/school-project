@@ -23,6 +23,11 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
+        .score-container {
+            margin-top: 20px;
+            font-size: 24px;
+        }
     </style>
     <script>
         var questions = [
@@ -55,8 +60,10 @@
         ];
 
         var currentQuestionIndex = 0;
+        var score = 0;
 
         function displayQuestion() {
+            // Function logic for displaying questions
             var questionObj = questions[currentQuestionIndex];
             document.querySelector('p').innerHTML = "<strong>Question: </strong>" + questionObj.question;
 
@@ -82,17 +89,24 @@
             var question = questions[currentQuestionIndex];
 
             if (userAnswer === question.answer) {
-                alert("Correct Answer!");
-            } else {
-                alert("Wrong Answer! The correct answer is: " + question.choices[question.answer.charCodeAt(0) - 97].split(":")[1]);
+                score++;
             }
 
             currentQuestionIndex++;
             if (currentQuestionIndex < questions.length) {
                 displayQuestion();
             } else {
-                alert("Congratulations! You have completed the quiz.");
+                showScore();
             }
+        }
+
+        function showScore() {
+            document.querySelector('.quiz-container').style.display = 'none';
+            var scoreContainer = document.createElement('div');
+            scoreContainer.classList.add('score-container');
+            var scoreText = document.createTextNode('Your score: ' + score + ' out of ' + questions.length);
+            scoreContainer.appendChild(scoreText);
+            document.body.appendChild(scoreContainer);
         }
 
         window.onload = function () {
